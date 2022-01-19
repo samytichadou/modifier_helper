@@ -17,17 +17,23 @@ class PARTHELPER_OT_toggle_particles(bpy.types.Operator):
     show_render : bpy.props.BoolProperty(name = "Show Render")
     exclude_toggle : bpy.props.BoolProperty(name = "Use Exclusion Pattern for Object/Modifier name")
     exclude_pattern : bpy.props.StringProperty(name = "Exclusion Pattern", default = "Exclusion Pattern")
+    selected_number : bpy.props.IntProperty()
 
     @classmethod
     def poll(cls, context):
         return True
     
     def invoke(self, context, event):
+        self.selected_number = len(context.selected_objects)
         return context.window_manager.invoke_props_dialog(self)
  
     def draw(self, context):
         layout = self.layout
-        layout.prop(self, "selected")
+
+        row = layout.row()
+        row.label(text="%i objects selected" % self.selected_number)
+        row.prop(self, "selected")
+
         layout.prop(self, "exclude_toggle")
 
         row = layout.row()
@@ -76,13 +82,8 @@ class PARTHELPER_OT_toggle_particles(bpy.types.Operator):
         return {'FINISHED'}
 
 
-# Register and add to the "object" menu (required to also use F3 search "Simple Object Operator" for quick access)
 def register():
     bpy.utils.register_class(PARTHELPER_OT_toggle_particles)
 
 def unregister():
     bpy.utils.unregister_class(PARTHELPER_OT_toggle_particles)
-
-
-if __name__ == "__main__":
-    register()
