@@ -23,7 +23,9 @@ class MODHELPER_OT_toggle_modifiers(bpy.types.Operator):
     show_render : bpy.props.BoolProperty(name = "Show Render")
     exclude_toggle : bpy.props.BoolProperty(name = "Use Exclusion Pattern for Object/Modifier name")
     exclude_pattern : bpy.props.StringProperty(name = "Exclusion Pattern", default = "Exclusion Pattern")
-    selected_number : bpy.props.IntProperty()
+    include_toggle : bpy.props.BoolProperty(name = "Use Inclusion Pattern for Object/Modifier name")
+    include_pattern : bpy.props.StringProperty(name = "Inclusion Pattern", default = "Inclusion Pattern")
+    selected_number : 0
 
     @classmethod
     def poll(cls, context):
@@ -43,14 +45,20 @@ class MODHELPER_OT_toggle_modifiers(bpy.types.Operator):
         row.prop(self, "selected")
 
         layout.prop(self, "exclude_toggle")
-
         row = layout.row()
         if self.exclude_toggle:
             row.enabled = True
         else:
             row.enabled = False
-
         row.prop(self, "exclude_pattern", text="")
+
+        layout.prop(self, "include_toggle")
+        row = layout.row()
+        if self.include_toggle:
+            row.enabled = True
+        else:
+            row.enabled = False
+        row.prop(self, "include_pattern", text="")
 
         layout.prop(self, "behavior")
 
@@ -76,10 +84,19 @@ class MODHELPER_OT_toggle_modifiers(bpy.types.Operator):
 
         for ob in objects:
             if ob.type == 'MESH':
+                #exclusion pattern obj name
                 if self.exclude_toggle and self.exclude_pattern.lower() in ob.name.lower():
                     continue
+                #inclusion pattern obj name
+                chk_include = False
+                if self.include_toggle and self.include_pattern.lower() in ob.name.lower():
+                    chk_include = True
                 for mod in ob.modifiers:
+                    #exclusion pattern mod name
                     if self.exclude_toggle and self.exclude_pattern.lower() in mod.name.lower():
+                        continue
+                    #inclusion pattern mod name
+                    if self.include_toggle and self.include_pattern.lower() not in mod.name.lower() and not chk_include:
                         continue
                     if mod.type == self.modifier_type:
                         if self.behavior in {"VIEWPORT", "BOTH"}:
