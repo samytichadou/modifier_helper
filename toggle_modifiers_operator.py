@@ -1,18 +1,24 @@
 import bpy
 
-class PARTHELPER_OT_toggle_particles(bpy.types.Operator):
+class MODHELPER_OT_toggle_modifiers(bpy.types.Operator):
     """Tooltip"""
-    bl_idname = "parthelper.toggle_particles"
-    bl_label = "Toggles Particle Systems"
+    bl_idname = "modhelper.toggle_modifiers"
+    bl_label = "Toggles Modifiers"
     bl_options = {"REGISTER", "UNDO"}
     
+    modifier_type_items = [
+        ('PARTICLE_SYSTEM', 'Particle System', ""),
+        ('SUBSURF', 'Subdivision Surface', ""),
+        ('DISPLACE', 'Displace', ""),
+        ]
+    modifier_type : bpy.props.EnumProperty(name = "Type", items = modifier_type_items, default = 'PARTICLE_SYSTEM')
     selected : bpy.props.BoolProperty(name = "Only Selected Objects", default = True)
-    toggle_particles_items = [
+    toggle_modifiers_items = [
         ('VIEWPORT', 'Change Viewport Visibility', ""),
         ('RENDER', 'Change Render Visibility', ""),
         ('BOTH', 'Change Viewport and Render Visibility', ""),
         ]
-    behavior : bpy.props.EnumProperty(name = "Behavior", items = toggle_particles_items, default = 'VIEWPORT')
+    behavior : bpy.props.EnumProperty(name = "Behavior", items = toggle_modifiers_items, default = 'VIEWPORT')
     show_viewport : bpy.props.BoolProperty(name = "Show Viewport")
     show_render : bpy.props.BoolProperty(name = "Show Render")
     exclude_toggle : bpy.props.BoolProperty(name = "Use Exclusion Pattern for Object/Modifier name")
@@ -29,6 +35,8 @@ class PARTHELPER_OT_toggle_particles(bpy.types.Operator):
  
     def draw(self, context):
         layout = self.layout
+
+        layout.prop(self, "modifier_type")
 
         row = layout.row()
         row.label(text="%i objects selected" % self.selected_number)
@@ -73,7 +81,7 @@ class PARTHELPER_OT_toggle_particles(bpy.types.Operator):
                 for mod in ob.modifiers:
                     if self.exclude_toggle and self.exclude_pattern.lower() in mod.name.lower():
                         continue
-                    if mod.type == "PARTICLE_SYSTEM":
+                    if mod.type == self.modifier_type:
                         if self.behavior in {"VIEWPORT", "BOTH"}:
                             mod.show_viewport = self.show_viewport 
                         if self.behavior in {"RENDER", "BOTH"}:
@@ -83,7 +91,7 @@ class PARTHELPER_OT_toggle_particles(bpy.types.Operator):
 
 
 def register():
-    bpy.utils.register_class(PARTHELPER_OT_toggle_particles)
+    bpy.utils.register_class(MODHELPER_OT_toggle_modifiers)
 
 def unregister():
-    bpy.utils.unregister_class(PARTHELPER_OT_toggle_particles)
+    bpy.utils.unregister_class(MODHELPER_OT_toggle_modifiers)

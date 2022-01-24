@@ -19,20 +19,20 @@ Created by Samy Tichadou
 '''
 
 bl_info = {
-    "name": "Particle Helper",
-    "description": "Manage several particle systems quickly",
+    "name": "Modifier Helper",
+    "description": "Manage several modifiers quickly",
     "author": "Samy Tichadou (tonton)",
     "version": (1, 0, 0),
     "blender": (3, 0, 0),
     "location": "",
     "wiki_url": "https://github.com/samytichadou/particle_helper/blob/master/README.md",
     "tracker_url": "https://github.com/samytichadou/particle_helper/issues/new",
-    "category": "Particles" }
+    "category": "Modifier" }
 
 # IMPORT SPECIFICS
 ##################################
 
-from . import   (toggle_particle_operator,
+from . import   (toggle_modifiers_operator,
                 )
 
 
@@ -40,7 +40,7 @@ from . import   (toggle_particle_operator,
 ##################################
 
 def register():
-    toggle_particle_operator.register()
+    toggle_modifiers_operator.register()
 
 def unregister():
-    toggle_particle_operator.unregister()
+    toggle_modifiers_operator.unregister()
