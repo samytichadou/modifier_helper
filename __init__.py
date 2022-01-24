@@ -32,8 +32,10 @@ bl_info = {
 # IMPORT SPECIFICS
 ##################################
 
-from . import   (toggle_modifiers_operator,
-                )
+from . import   (
+    toggle_modifiers_operator,
+    gui,
+)
 
 
 # register
@@ -41,6 +43,8 @@ from . import   (toggle_modifiers_operator,
 
 def register():
     toggle_modifiers_operator.register()
+    gui.register()
 
 def unregister():
     toggle_modifiers_operator.unregister()
+    gui.unregister()
