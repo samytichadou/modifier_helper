@@ -25,8 +25,8 @@ bl_info = {
     "version": (1, 0, 0),
     "blender": (3, 0, 0),
     "location": "",
-    "wiki_url": "https://github.com/samytichadou/particle_helper/blob/master/README.md",
-    "tracker_url": "https://github.com/samytichadou/particle_helper/issues/new",
+    "wiki_url": "https://github.com/samytichadou/modifier_helper/blob/master/README.md",
+    "tracker_url": "https://github.com/samytichadou/modifier_helper/issues/new",
     "category": "Modifier" }
 
 # IMPORT SPECIFICS
