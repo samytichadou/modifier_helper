@@ -1,2 +1,2 @@
-# Particle Helper
-Blender addon to manage several particle systems quickly
+# Modifier Helper
+Blender addon to manage several modifiers quickly
