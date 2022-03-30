@@ -10,6 +10,7 @@ class MODHELPER_OT_toggle_modifiers(bpy.types.Operator):
         ('PARTICLE_SYSTEM', 'Particle System', ""),
         ('SUBSURF', 'Subdivision Surface', ""),
         ('DISPLACE', 'Displace', ""),
+        ('ARMATURE', 'Armature', ""),
         ]
     modifier_type : bpy.props.EnumProperty(name = "Type", items = modifier_type_items, default = 'PARTICLE_SYSTEM')
     selected : bpy.props.BoolProperty(name = "Only Selected Objects", default = True)
